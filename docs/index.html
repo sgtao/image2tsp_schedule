@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>image2tsp_schedule</title>
+<meta charset="utf-8">
+<title>image2tsp_schedule</title>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>画像からTSP経路リスト</h1>
-      <p>画像から巡回セールスマン問題(Traveling Salesperson Problem)の最短順路を示すコンテンツを紹介します。</p>
-    </header>
+  <h2>画像からTSPを経路スケジュール：</h2>
+  <p id="status">OpenCV.js is loading...</p>
+  <div>
+    <div class="inputoutput" style="border: 1px solid black; padding: 5px;">
+      <img id="imageSrc" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
+      <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+      <hr>
+      <img id="tempImg" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
+      <div class="caption">tempImg <input type="file" id="fileTemplate" name="file" /></div>
+    </div>
+    <div class="inputoutput">
+      <div class="canvas_table">
+        <div class="canvasInput">
+          <div class="caption">InputImage</div>
+          <canvas id="canvasInput" ></canvas>
+        </div>
+        <div class="canvasTemplate">
+          <div class="caption">canvasTemplate</div>
+          <canvas id="canvasTemplate" ></canvas>
+        </div>
+        <div class="canvasOutput">
+          <div class="caption">convertedOutput</div>
+          <canvas id="canvasOutput" ></canvas>
+        </div>
+      </div>
+    </div>
   </div>
-  
+  <script type="text/javascript" src="scripts/main.js"></script>
+  <script type="text/javascript">
+    function onOpenCvReady () {
+      document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+      init();
+    }
+  </script>
+  <script async src="https://docs.opencv.org/3.4.0/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
 </body>
 </html>
