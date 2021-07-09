@@ -7,36 +7,40 @@
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <header>
-    <h2>画像からTSPを経路スケジュール：</h2>
-    <p>利用者が貼り付けた画像をもとに、経路対象の認識⇒最適経路探索をして、経路順を示します。</p>
-    <p style="color:red;">（モックですが、下にコンテンツのイメージをしめしてます）</p>
-  </header>
-  <hr>
-  <!-- 参考：https://bagelee.com/design/css/create_tabs_using_only_css/ -->
-  <div class="tabs">
-      <input id="all" type="radio" name="tab_item" checked>
-      <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
-      <input id="programming" type="radio" name="tab_item">
-      <label class="tab_item" for="programming">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
-      <input id="design" type="radio" name="tab_item">
-      <label class="tab_item" for="design">３．経路候補</label>
-      <div class="tab_content" id="all_content">
-        ここに、画像（入力データ）の指定画面が入ります
-        <img src="sample_images/01_choice_image.png" alt="01_choice_image" srcset="">
-      </div>
-      <div class="tab_content" id="programming_content">
-        ここに、入力データから認識したのTSP対象のポイント候補が入ります
-        <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
-      </div>
-      <div class="tab_content" id="design_content">
-        ここに、TSP対象のポイント候補の経路画像が入ります
-        <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
-      </div>
-    </div>
-  <hr>
-  <footer>
-    <p>Copyright © 2021 sg.tao.so@gmail.com All Rights Reserved.</p>
-  </footer>
+  <div class="container">
+    <header>
+      <h2>画像からTSPを経路スケジュール：</h2>
+      <p>利用者が貼り付けた画像をもとに、経路対象の認識⇒最適経路探索をして、経路順を示します。</p>
+      <p style="color:red;">（モックですが、下にコンテンツのイメージをしめしてます）</p>
+    </header>
+    <hr>
+    <main class="mockup_images">
+      <!-- 参考：https://bagelee.com/design/css/create_tabs_using_only_css/ -->
+      <div class="tabs">
+          <input id="all" type="radio" name="tab_item" checked>
+          <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
+          <input id="programming" type="radio" name="tab_item">
+          <label class="tab_item" for="programming">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
+          <input id="design" type="radio" name="tab_item">
+          <label class="tab_item" for="design">３．経路候補</label>
+          <div class="tab_content" id="all_content">
+            ここに、画像（入力データ）の指定画面が入ります
+            <img src="sample_images/01_choice_image.png" alt="01_choice_image" srcset="">
+          </div>
+          <div class="tab_content" id="programming_content">
+            ここに、入力データから認識したのTSP対象のポイント候補が入ります
+            <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
+          </div>
+          <div class="tab_content" id="design_content">
+            ここに、TSP対象のポイント候補の経路画像が入ります
+            <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
+          </div>
+        </div>
+    </main>
+    <hr>
+    <footer>
+      <p>Copyright © 2021 sg.tao.so@gmail.com All Rights Reserved.</p>
+    </footer>
+  </div>
 </body>
 </html>
