@@ -3,42 +3,40 @@
 <head>
 <meta charset="utf-8">
 <title>image2tsp_schedule</title>
+<link rel="stylesheet" href="styles/vendors/bootstrap-reboot.css">
+<link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <h2>画像からTSPを経路スケジュール：</h2>
-  <p id="status">OpenCV.js is loading...</p>
-  <div>
-    <div class="inputoutput" style="border: 1px solid black; padding: 5px;">
-      <img id="imageSrc" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
-      <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
-      <hr>
-      <img id="tempImg" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
-      <div class="caption">tempImg <input type="file" id="fileTemplate" name="file" /></div>
-    </div>
-    <div class="inputoutput">
-      <div class="canvas_table">
-        <div class="canvasInput">
-          <div class="caption">InputImage</div>
-          <canvas id="canvasInput" ></canvas>
-        </div>
-        <div class="canvasTemplate">
-          <div class="caption">canvasTemplate</div>
-          <canvas id="canvasTemplate" ></canvas>
-        </div>
-        <div class="canvasOutput">
-          <div class="caption">convertedOutput</div>
-          <canvas id="canvasOutput" ></canvas>
-        </div>
+  <header>
+    <h2>画像からTSPを経路スケジュール：</h2>
+    <p>利用者が貼り付けた画像をもとに、経路対象の認識⇒最適経路探索をして、経路順を示します。</p>
+    <p style="color:red;">（モックですが、下にコンテンツのイメージをしめしてます）</p>
+  </header>
+  <hr>
+  <!-- 参考：https://bagelee.com/design/css/create_tabs_using_only_css/ -->
+  <div class="tabs">
+      <input id="all" type="radio" name="tab_item" checked>
+      <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
+      <input id="programming" type="radio" name="tab_item">
+      <label class="tab_item" for="programming">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
+      <input id="design" type="radio" name="tab_item">
+      <label class="tab_item" for="design">３．経路候補</label>
+      <div class="tab_content" id="all_content">
+        ここに、画像（入力データ）の指定画面が入ります
+        <img src="sample_images/01_choice_image.png" alt="01_choice_image" srcset="">
+      </div>
+      <div class="tab_content" id="programming_content">
+        ここに、入力データから認識したのTSP対象のポイント候補が入ります
+        <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
+      </div>
+      <div class="tab_content" id="design_content">
+        ここに、TSP対象のポイント候補の経路画像が入ります
+        <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
       </div>
     </div>
-  </div>
-  <script type="text/javascript" src="scripts/main.js"></script>
-  <script type="text/javascript">
-    function onOpenCvReady () {
-      document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-      init();
-    }
-  </script>
-  <script async src="https://docs.opencv.org/3.4.0/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+  <hr>
+  <footer>
+    <p>Copyright © 2021 sg.tao.so@gmail.com All Rights Reserved.</p>
+  </footer>
 </body>
 </html>
