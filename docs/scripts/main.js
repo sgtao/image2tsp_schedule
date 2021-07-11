@@ -9,21 +9,30 @@ function init(){
   inputElement.addEventListener('change', (e) => {
     srcImgElement.src = URL.createObjectURL(e.target.files[0]);
   }, false);
-  srcImgElement.onload = function load_srcImg() {
+  function load_srcImg() {
     let mat = cv.imread(imageSrc);
     cv.imshow('canvasInput', mat);
     mat.delete();
     templateMatching();
   };
+  srcImgElement.addEventListener('load', (event) => {
+    load_srcImg(event);
+  });
+
   templateElement.addEventListener('change', (e) => {
     tmplImgElement.src = URL.createObjectURL(e.target.files[0]);
   }, false);
-  tmplImgElement.onload = function load_templImg() {
+  function load_templImg() {
     let mat = cv.imread(tempImg);
     cv.imshow('canvasTemplate', mat);
     mat.delete();
     templateMatching();
   };
+  tmplImgElement.addEventListener('load', (event) => {
+    load_templImg(event);
+  });
+
+  // 
   function templateMatching() {
     let src = cv.imread('canvasInput');
     let templ = cv.imread('canvasTemplate');
@@ -44,4 +53,8 @@ function init(){
     cv.imshow('canvasOutput', dst);
     src.delete(); dst.delete(); mask.delete();
   }
+  // initial dispatch at loading.
+  load_srcImg();
+  load_templImg();
+
 }
