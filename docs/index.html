@@ -3,80 +3,87 @@
 <head>
 <meta charset="utf-8">
 <title>image2tsp_schedule</title>
+<!-- show loader by pace.js (https://codebyzach.github.io/pace/) -->
+<!-- refer from https://gimmicklog.com/javascript/614/ -->
+<link rel="stylesheet" href="styles/vendors/loading-bar.css">
+<script src="scripts/vendors/pace.min.js"></script>
+<!-- EOF of show loader by pace.js (https://codebyzach.github.io/pace/) -->
 <link rel="stylesheet" href="styles/vendors/bootstrap-reboot.css">
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h2>画像からTSPの経路をスケジュール：</h2>
-      <p>利用者が貼り付けた画像をもとに、経路対象の認識⇒最適経路探索をして、経路順を示します。</p>
-      <p style="color:red;">（モックですが、下にコンテンツのイメージをしめしてます）</p>
-    </header>
-    <hr>
-    <main class="mockup_images">
-      <!-- 参考：https://bagelee.com/design/css/create_tabs_using_only_css/ -->
-      <div class="tabs">
-          <input id="all" type="radio" name="tab_item" checked>
-          <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
-          <input id="matching" type="radio" name="tab_item">
-          <label class="tab_item" for="matching">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
-          <input id="tspsolved" type="radio" name="tab_item">
-          <label class="tab_item" for="tspsolved">３．経路候補</label>
-          <div class="tab_content" id="all_content">
-            <!-- tab_content -- start -->
-            <p>解析画像とテンプレート画像を指定してください。</p>
-            <p id="opencv-status">OpenCV.js is loading...</p>
-            <div class="inputImage">
-              <div class="input-overlay">Please wait until OpenCV ready.</div>
-              <img id="imageSrc" src="assets/02a_pt76_map.png" alt="sample Image" style="display:none;"/>
-              <div class="caption">解析画像 <input type="file" id="fileInput" name="file" /></div>
-              <hr>
-              <img id="tempImg" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
-              <div class="caption">テンプレート <input type="file" id="fileTemplate" name="file" /></div>
-            </div>
-            <div class="inputoutput">
-              <div class="canvas_table">
-                <div class="canvasInput">
-                  <div class="caption">InputImage</div>
-                  <canvas id="canvasInput" ></canvas>
-                </div>
-                <div class="canvasTemplate">
-                  <div class="caption">canvasTemplate</div>
-                  <canvas id="canvasTemplate" ></canvas>
-                </div>
-                <!-- <div class="canvasOutput">
-                  <div class="caption">convertedOutput</div>
-                  <canvas id="canvasOutput" ></canvas>
-                </div> -->
+  <div class="global-container">
+    <div class="container">
+      <header>
+        <h2>画像からTSPの経路をスケジュール：</h2>
+        <p>利用者が貼り付けた画像をもとに、経路対象の認識⇒最適経路探索をして、経路順を示します。</p>
+        <p style="color:red;">（モックですが、下にコンテンツのイメージをしめしてます）</p>
+      </header>
+      <hr>
+      <main class="mockup_images">
+        <!-- 参考：https://bagelee.com/design/css/create_tabs_using_only_css/ -->
+        <div class="tabs">
+            <input id="all" type="radio" name="tab_item" checked>
+            <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
+            <input id="matching" type="radio" name="tab_item">
+            <label class="tab_item" for="matching">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
+            <input id="tspsolved" type="radio" name="tab_item">
+            <label class="tab_item" for="tspsolved">３．経路候補</label>
+            <div class="tab_content" id="all_content">
+              <!-- tab_content -- start -->
+              <p>解析画像とテンプレート画像を指定してください。</p>
+              <p id="opencv-status">OpenCV.js is loading...</p>
+              <div class="inputImage">
+                <div class="input-overlay">Please wait until OpenCV ready.</div>
+                <img id="imageSrc" src="assets/02a_pt76_map.png" alt="sample Image" style="display:none;"/>
+                <div class="caption">解析画像 <input type="file" id="fileInput" name="file" /></div>
+                <hr>
+                <img id="tempImg" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
+                <div class="caption">テンプレート <input type="file" id="fileTemplate" name="file" /></div>
               </div>
-            </div>
-
-            <!-- tab_content --  end  -->
-          </div>
-          <div class="tab_content" id="matching_content">
-            <p>ここに、入力データから認識したのTSP対象のポイント候補が入ります</p>
-            <div class="inputoutput">
-              <div class="canvas_table">
-                <div class="canvasOutput">
-                  <div class="caption">convertedOutput</div>
-                  <canvas id="canvasOutput" ></canvas>
+              <div class="inputoutput">
+                <div class="canvas_table">
+                  <div class="canvasInput">
+                    <div class="caption">InputImage</div>
+                    <canvas id="canvasInput" ></canvas>
+                  </div>
+                  <div class="canvasTemplate">
+                    <div class="caption">canvasTemplate</div>
+                    <canvas id="canvasTemplate" ></canvas>
+                  </div>
+                  <!-- <div class="canvasOutput">
+                    <div class="caption">convertedOutput</div>
+                    <canvas id="canvasOutput" ></canvas>
+                  </div> -->
                 </div>
               </div>
+  
+              <!-- tab_content --  end  -->
             </div>
-            <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
+            <div class="tab_content" id="matching_content">
+              <p>ここに、入力データから認識したのTSP対象のポイント候補が入ります</p>
+              <div class="inputoutput">
+                <div class="canvas_table">
+                  <div class="canvasOutput">
+                    <div class="caption">convertedOutput</div>
+                    <canvas id="canvasOutput" ></canvas>
+                  </div>
+                </div>
+              </div>
+              <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
+            </div>
+            <div class="tab_content" id="tspsolved_content">
+              <p>ここに、TSP対象のポイント候補の経路画像が入ります</p>
+              <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
+            </div>
           </div>
-          <div class="tab_content" id="tspsolved_content">
-            <p>ここに、TSP対象のポイント候補の経路画像が入ります</p>
-            <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
-          </div>
-        </div>
-    </main>
-    <hr>
-    <footer>
-      <p>Copyright © 2021 sg.tao.so@gmail.com All Rights Reserved.</p>
-    </footer>
-  </div>
+      </main>
+      <hr>
+      <footer>
+        <p>Copyright © 2021 sg.tao.so@gmail.com All Rights Reserved.</p>
+      </footer>
+    </div>
+  </div>  
   <script type="text/javascript" src="scripts/main.js"></script>
   <script type="text/javascript">
     function onOpenCvReady () {
