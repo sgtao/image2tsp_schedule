@@ -19,10 +19,10 @@
       <div class="tabs">
           <input id="all" type="radio" name="tab_item" checked>
           <label class="tab_item" for="all">１．画像指定<img src="icons/outline_arrow_forward_white_24dp.png" alt="right"></label>
-          <input id="programming" type="radio" name="tab_item">
-          <label class="tab_item" for="programming">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
-          <input id="design" type="radio" name="tab_item">
-          <label class="tab_item" for="design">３．経路候補</label>
+          <input id="matching" type="radio" name="tab_item">
+          <label class="tab_item" for="matching">２．ポイント検出<img src="icons/outline_arrow_forward_black_24dp.png" alt="right"></label>
+          <input id="tspsolved" type="radio" name="tab_item">
+          <label class="tab_item" for="tspsolved">３．経路候補</label>
           <div class="tab_content" id="all_content">
             <!-- tab_content -- start -->
             <p>解析画像とテンプレート画像を指定してください。</p>
@@ -45,19 +45,28 @@
                   <div class="caption">canvasTemplate</div>
                   <canvas id="canvasTemplate" ></canvas>
                 </div>
+                <!-- <div class="canvasOutput">
+                  <div class="caption">convertedOutput</div>
+                  <canvas id="canvasOutput" ></canvas>
+                </div> -->
+              </div>
+            </div>
+
+            <!-- tab_content --  end  -->
+          </div>
+          <div class="tab_content" id="matching_content">
+            <p>ここに、入力データから認識したのTSP対象のポイント候補が入ります</p>
+            <div class="inputoutput">
+              <div class="canvas_table">
                 <div class="canvasOutput">
                   <div class="caption">convertedOutput</div>
                   <canvas id="canvasOutput" ></canvas>
                 </div>
               </div>
             </div>
-
-            <!-- tab_content --  end  -->
+            <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
           </div>
-          <div class="tab_content" id="programming_content">
-            <p>ここに、入力データから認識したのTSP対象のポイント候補が入ります</p>           <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
-          </div>
-          <div class="tab_content" id="design_content">
+          <div class="tab_content" id="tspsolved_content">
             <p>ここに、TSP対象のポイント候補の経路画像が入ります</p>
             <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
           </div>

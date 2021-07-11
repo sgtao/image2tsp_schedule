@@ -57,8 +57,8 @@ main {
   
   /*選択されているタブのコンテンツのみを表示*/
   #all:checked ~ #all_content,
-  #programming:checked ~ #programming_content,
-  #design:checked ~ #design_content {
+  #matching:checked ~ #matching_content,
+  #tspsolved:checked ~ #tspsolved_content {
     display: block;
   }
   

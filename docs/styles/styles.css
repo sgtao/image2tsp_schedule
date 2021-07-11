@@ -48,8 +48,8 @@ main {
     clear: both;
     overflow: hidden; }
   .mockup_images #all:checked ~ #all_content,
-  .mockup_images #programming:checked ~ #programming_content,
-  .mockup_images #design:checked ~ #design_content {
+  .mockup_images #matching:checked ~ #matching_content,
+  .mockup_images #tspsolved:checked ~ #tspsolved_content {
     display: block; }
   .mockup_images .tabs input:checked + .tab_item {
     background-color: #5ab4bd;
