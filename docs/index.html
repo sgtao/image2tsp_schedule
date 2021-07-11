@@ -26,14 +26,14 @@
           <div class="tab_content" id="all_content">
             <!-- tab_content -- start -->
             <p>解析画像とテンプレート画像を指定してください。</p>
-            <p id="status">OpenCV.js is loading...</p>
+            <p id="opencv-status">OpenCV.js is loading...</p>
             <div class="inputImage">
-              <div class="overlay ">Please wait until OpenCV ready.</div>
+              <div class="input-overlay">Please wait until OpenCV ready.</div>
               <img id="imageSrc" src="assets/02a_pt76_map.png" alt="sample Image" style="display:none;"/>
-              <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+              <div class="caption">解析画像 <input type="file" id="fileInput" name="file" /></div>
               <hr>
               <img id="tempImg" src="assets/01b_template_city.png" alt="sample Image" style="display:none;"/>
-              <div class="caption">tempImg <input type="file" id="fileTemplate" name="file" /></div>
+              <div class="caption">テンプレート <input type="file" id="fileTemplate" name="file" /></div>
             </div>
             <div class="inputoutput">
               <div class="canvas_table">
@@ -71,7 +71,8 @@
   <script type="text/javascript" src="scripts/main.js"></script>
   <script type="text/javascript">
     function onOpenCvReady () {
-      document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+      document.querySelector('#opencv-status').innerHTML = 'OpenCV.js is ready.';
+      document.querySelector('.input-overlay').classList.add('overlay-hide')
       init();
     }
   </script>

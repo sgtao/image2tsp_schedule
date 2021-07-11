@@ -59,17 +59,20 @@ main {
   position: relative;
   border: 1px solid black;
   padding: 5px; }
-  .inputImage > .overlay {
+  .inputImage > .input-overlay {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
-    margin: 0 auto;
+    top: 0;
+    left: 0;
+    padding: 40px 20px;
     text-align: center;
-    z-index: 100;
-    color: lightgray;
-    opacity: 0; }
-    .inputImage > .overlay .overlay-blocked {
-      background-color: rgba(0, 0, 0, 0.5);
-      opacity: 1.0; }
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 1.0;
+    transition: .3s ease; }
+    .inputImage > .input-overlay.overlay-hide {
+      opacity: 0;
+      visibility: hidden; }
 
 /*# sourceMappingURL=styles.css.map */
