@@ -77,6 +77,9 @@ main {
     background-color: #5ab4bd;
     color: #fff; }
 
+canvas {
+  max-width: 600px; }
+
 .inputImage {
   position: relative;
   border: 1px solid black;

@@ -1,10 +1,10 @@
 'use strict';
 
 function init(){
-  let srcImgElement = document.getElementById('imageSrc');
   let inputElement = document.getElementById('fileInput');
-  let tmplImgElement = document.getElementById('tempImg');
+  let srcImgElement = document.getElementById('imageSrc');
   let templateElement = document.getElementById('fileTemplate');
+  let tmplImgElement = document.getElementById('tempImg');
 
   inputElement.addEventListener('change', (e) => {
     srcImgElement.src = URL.createObjectURL(e.target.files[0]);

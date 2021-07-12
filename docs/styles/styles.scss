@@ -96,6 +96,9 @@ main {
 }
 //
 // tab_content style
+canvas {
+  max-width: 600px;
+}
 .inputImage {
   position: relative;
   border: 1px solid black;
