@@ -32,6 +32,12 @@ function init(){
     load_templImg(event);
   });
 
+  function canvas_putText(el_Id, x, y, text, font = "20px Arial"){
+    let canvasMatching = document.getElementById(el_Id);
+    let ctx = canvasMatching.getContext("2d");
+    ctx.font = font;
+    ctx.fillText(text, x, y);
+  }
   // 
   function templateMatching() {
     let src = cv.imread('canvasInput');
@@ -52,6 +58,9 @@ function init(){
     cv.imshow('canvasOutput', dst);
     cv.imshow('canvasMatching', src);
     src.delete(); dst.delete(); mask.delete();
+    // put test on canvas --start--
+    canvas_putText('canvasMatching', maxPoint.x, maxPoint.y, "1");
+    // put test on canvas -- end --
   }
   // initial dispatch at loading.
   load_srcImg();
