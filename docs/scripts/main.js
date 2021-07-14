@@ -96,12 +96,11 @@ function init(){
     // append matching locations
     for (let i = 0; i < loc_array.length; i++ ) {
       let point_base = { x: loc_array[i].x, y: loc_array[i].y};
-      console.log(i, point_base);
+      // console.log(i, point_base);
       let point = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
       cv.rectangle(output, point_base, point, color, 2, cv.LINE_8, 0);
     }
-
-    cv.imshow('canvasOutput', res);
+    // cv.imshow('canvasOutput', res);
     cv.imshow('canvasMatching', output);
     src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
     // put test on canvas --start--
@@ -109,6 +108,29 @@ function init(){
       canvas_putText('canvasMatching', loc_array[i].x, loc_array[i].y, i + 1);
     }
     // put test on canvas -- end --
+    // 
+    // 座標リストを表示
+    show_matching_list('MatchingList', loc_array);
+
+  }
+  // Matching coordinates list
+  function show_matching_list (el_Id, loc_array) {
+    let showarea = document.getElementById(el_Id);
+    if (loc_array.length === 0) { return; }
+    //新たな子要素の生成
+    let comment_div = document.createElement('div');
+    comment_div.textContent = 'matching : ' + loc_array.length + 'point(s)'
+    let new_ul = document.createElement('ul');
+    for (let i = 0; i < loc_array.length; i++) {
+      let new_li = document.createElement('li');
+      new_li.textContent = (i+1) + ' : x = ' + loc_array[i].x + ', y = ' + loc_array[i].y ;
+      new_ul.appendChild(new_li);
+    }
+    //もとの子要素を全て削除
+    while (showarea.firstChild) showarea.removeChild(showarea.firstChild);
+    //新たな子要素を追加
+    showarea.appendChild(comment_div);
+    showarea.appendChild(new_ul);
   }
   // initial dispatch at loading.
   load_templImg();

@@ -31,7 +31,7 @@
             <label class="tab_item" for="tspsolved">３．経路候補</label>
             <div class="tab_content" id="all_content">
               <!-- tab_content -- start -->
-              <p>解析画像とテンプレート画像を指定してください。</p>
+              <p>解析対象とテンプレート画像を指定してください。</p>
               <p id="opencv-status">OpenCV.js is loading...</p>
               <div class="inputImage">
                 <div class="input-overlay">Please wait until OpenCV ready.</div>
@@ -53,28 +53,34 @@
                   </div>
                 </div>
               </div>
-  
               <!-- tab_content --  end  -->
             </div>
             <div class="tab_content" id="matching_content">
-              <p>ここに、入力データから認識したのTSP対象のポイント候補が入ります</p>
+              <!-- tab_content -- start -->
               <div class="inputoutput">
                 <div class="canvas_table">
-                  <div class="canvasOutput">
+                  <!-- <div class="canvasOutput">
                     <div class="caption">convertedOutput</div>
                     <canvas id="canvasOutput" ></canvas>
-                  </div>
+                  </div> -->
                   <div class="canvasOutput">
                     <div class="caption">templateMatching</div>
                     <canvas id="canvasMatching" ></canvas>
                   </div>
+                  <div class="canvasOutput">
+                    <div class="caption">Matching coordinate list:</div>
+                    <div id="MatchingList" >ここに検出したポイントの座標を表示します。</div>
+                  </div>
                 </div>
               </div>
-              <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset="">
+              <!-- <img src="sample_images/02_detect_points.png" alt="02_detect_points" srcset=""> -->
+              <!-- tab_content --  end  -->
             </div>
             <div class="tab_content" id="tspsolved_content">
+              <!-- tab_content -- start -->
               <p>ここに、TSP対象のポイント候補の経路画像が入ります</p>
               <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
+              <!-- tab_content --  end  -->
             </div>
           </div>
       </main>
