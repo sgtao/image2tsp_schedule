@@ -2,3 +2,4 @@ README.txt
 .sass-cache
 */.sass-cache
 */*/.sass-cache
+docs/scripts/vendors/opencv.3.4.0.js

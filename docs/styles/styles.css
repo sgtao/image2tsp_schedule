@@ -8,6 +8,8 @@ html, body {
   height: 80%;
   width: 80%;
   top: 30vh; }
+  .pace .pace-progress {
+    font-size: 24px; }
   .pace::after {
     content: 'image2tsp_schedule';
     font-size: 24px;

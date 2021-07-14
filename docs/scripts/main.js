@@ -38,50 +38,60 @@ function init(){
     ctx.font = font;
     ctx.fillText(text, x, y);
   }
-  function filter_loc_array(mat, cols, rows, maxValue, threshold) {
+  function filter_loc_array(res, res_cols, res_rows, maxValue, threshold = 0.95) {
     let loc_array = [];
-    let _loc = {'id':0, 'col':0, 'row':0 };
+    let _loc = {'id':0, 'x':0, 'y':0 };
+    let _id = 0;
     let filter_val = maxValue > 0 ? maxValue * threshold : 0;
-
-    for (let row = 0; row <= rows; row++) {
-    for (let col = 0; col <= cols; col++) {
-      let _loc_val = mat.floatAt(col, row);
-      if (_loc_val > filter_val) {
-        console.log(` mat (${col},${row}) : ${_loc_val}`);
-      }
+    for (let row = 0; row <= res_rows; row++) {
+      for (let col = 0; col <= res_cols; col++) {
+        let _loc_val = res[row * res_cols + col];
+        if (_loc_val > filter_val) {
+          console.log(` ${_id++} : (${col},${row}) = ${_loc_val}`);
+        }
     }}
   }
 
 
   // 
   function templateMatching() {
-    let src = cv.imread('canvasInput');
-    let templ = cv.imread('canvasTemplate');
-    // let src_gray = new cv.Mat();
-    let dst = new cv.Mat();
+    let method = cv.TM_CCORR_NORMED;
+    let src = cv.imread('canvasInput', 1);
+    let templ = cv.imread('canvasTemplate', 1);
     let mask = new cv.Mat();
-    // cv.cvtColor(src, src_gray, cv.COLOR_RGBA2GRAY);
-    cv.matchTemplate(src, templ, dst, cv.TM_CCOEFF_NORMED, mask);
-    let result = cv.minMaxLoc(dst, mask);
-    // cv.matchTemplate(src, templ, dst, cv.TM_CCOEFF_NORMED);
-    console.log('dst : ', dst);
-    // console.log('dst depth : ', dst.depth());
-    console.log('dst height, width : ', dst.cols, dst.rows);
-    console.log('result : ', result);
-    let maxPoint = result.maxLoc;
-    console.log(`dst at maxPoint(${maxPoint.x}, ${maxPoint.y}) = ${dst.floatAt(maxPoint.x, maxPoint.y)}`);
+    let res_cols = src.cols - templ.cols + 1;
+    let res_rows = src.rows - templ.rows + 1;
+    let res = new cv.Mat(res_cols, res_rows, cv.CV_32FC1);
+    // template matching
+    cv.matchTemplate(src, templ, res, method, mask);
+    cv.normalize(res, res, 0, 1, cv.NORM_MINMAX, -1, new cv.Mat());
+
+    let minMaxLoc = cv.minMaxLoc(res, mask);
+    let matchLoc;
+    if (method == cv.TM_SQDIFF || method == cv.TM_SQDIFF_NORMED) {
+      matchLoc = minMaxLoc.minLoc;
+    } else {
+      matchLoc = minMaxLoc.maxLoc;
+    }
+    console.log('result : ', res);
+    console.log('result width, height : ', res.cols, res.rows);
+    console.log('minMaxLoc : ', minMaxLoc);
+    console.log(`result at maxPoint(${matchLoc.x}, ${matchLoc.y}) = ${res.floatAt(matchLoc.x, matchLoc.y)}`);
+    // console.log('result is : ', res.data32F[matchLoc.y * res_cols * matchLoc.x]);
+    console.log('result at maxLoc is : ', res.data32F[matchLoc.y * res.cols + matchLoc.x]);
+
     // 
     // filter
-    // filter_loc_array(dst, dst.cols, dst.rows, dst.floatAt(maxPoint.x, maxPoint.y), 0.99);
+    filter_loc_array(res.data32F, res_cols, res_rows, minMaxLoc.maxVal, 0.99);
     // 
     let color = new cv.Scalar(255, 0, 0, 255);
-    let point = new cv.Point(maxPoint.x + templ.cols, maxPoint.y + templ.rows);
-    cv.rectangle(src, maxPoint, point, color, 2, cv.LINE_8, 0);
-    cv.imshow('canvasOutput', dst);
+    let point = new cv.Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows);
+    cv.rectangle(src, matchLoc, point, color, 2, cv.LINE_8, 0);
+    cv.imshow('canvasOutput', res);
     cv.imshow('canvasMatching', src);
-    src.delete(); templ.delete(); dst.delete(); mask.delete();
+    src.delete(); templ.delete(); res.delete(); mask.delete();
     // put test on canvas --start--
-    canvas_putText('canvasMatching', maxPoint.x, maxPoint.y, "1");
+    canvas_putText('canvasMatching', matchLoc.x, matchLoc.y, "1");
     // put test on canvas -- end --
   }
   // initial dispatch at loading.
