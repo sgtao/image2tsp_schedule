@@ -31,29 +31,36 @@ function init(){
   tmplImgElement.addEventListener('load', (event) => {
     load_templImg(event);
   });
-
+  // putText on canvas by id name
   function canvas_putText(el_Id, x, y, text, font = "20px Arial"){
     let canvasMatching = document.getElementById(el_Id);
     let ctx = canvasMatching.getContext("2d");
     ctx.font = font;
     ctx.fillText(text, x, y);
   }
-  function filter_loc_array(res, res_cols, res_rows, maxValue, threshold = 0.95) {
-    let loc_array = [];
-    let _loc = {'id':0, 'x':0, 'y':0 };
+  // find locations over threshold from result array 
+  function loc_val(x, y, val = 1) {
+    this.x = x;
+    this.y = y;
+    this.val = val;
+  }
+  function find_loc_array(res, res_cols, res_rows, maxValue, threshold = 0.95) {
+    let loc_array = new Array();
     let _id = 0;
     let filter_val = maxValue > 0 ? maxValue * threshold : 0;
+    let filter_sign = maxValue > 0 ? 1 : -1;
     for (let row = 0; row <= res_rows; row++) {
       for (let col = 0; col <= res_cols; col++) {
         let _loc_val = res[row * res_cols + col];
-        if (_loc_val > filter_val) {
+        if (_loc_val > (filter_sign * filter_val)) {
           console.log(` ${_id++} : (${col},${row}) = ${_loc_val}`);
+          loc_array.push(new loc_val(col, row, _loc_val));
         }
     }}
+    return loc_array;
   }
-
-
   // 
+  // multiple templateMatching 
   function templateMatching() {
     let method = cv.TM_CCORR_NORMED;
     let src = cv.imread('canvasInput', 1);
@@ -75,23 +82,32 @@ function init(){
     }
     console.log('result : ', res);
     console.log('result width, height : ', res.cols, res.rows);
-    console.log('minMaxLoc : ', minMaxLoc);
-    console.log(`result at maxPoint(${matchLoc.x}, ${matchLoc.y}) = ${res.floatAt(matchLoc.x, matchLoc.y)}`);
-    // console.log('result is : ', res.data32F[matchLoc.y * res_cols * matchLoc.x]);
-    console.log('result at maxLoc is : ', res.data32F[matchLoc.y * res.cols + matchLoc.x]);
-
+    // console.log('minMaxLoc : ', minMaxLoc);
+    // console.log(`result at maxPoint(${matchLoc.x}, ${matchLoc.y}) = ${res.floatAt(matchLoc.x, matchLoc.y)}`);
+    // console.log('result at maxLoc is : ', res.data32F[matchLoc.y * res.cols + matchLoc.x]);
+    // find locations over threshold
+    let loc_array = find_loc_array(res.data32F, res_cols, res_rows, minMaxLoc.maxVal, 0.99);
+    console.log(loc_array);
     // 
-    // filter
-    filter_loc_array(res.data32F, res_cols, res_rows, minMaxLoc.maxVal, 0.99);
-    // 
+    // output matching result
+    let output = new cv.Mat();
+    src.copyTo(output);
     let color = new cv.Scalar(255, 0, 0, 255);
-    let point = new cv.Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows);
-    cv.rectangle(src, matchLoc, point, color, 2, cv.LINE_8, 0);
+    // append matching locations
+    for (let i = 0; i < loc_array.length; i++ ) {
+      let point_base = { x: loc_array[i].x, y: loc_array[i].y};
+      console.log(i, point_base);
+      let point = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
+      cv.rectangle(output, point_base, point, color, 2, cv.LINE_8, 0);
+    }
+
     cv.imshow('canvasOutput', res);
-    cv.imshow('canvasMatching', src);
-    src.delete(); templ.delete(); res.delete(); mask.delete();
+    cv.imshow('canvasMatching', output);
+    src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
     // put test on canvas --start--
-    canvas_putText('canvasMatching', matchLoc.x, matchLoc.y, "1");
+    for (let i = 0; i < loc_array.length; i++) {
+      canvas_putText('canvasMatching', loc_array[i].x, loc_array[i].y, i + 1);
+    }
     // put test on canvas -- end --
   }
   // initial dispatch at loading.
