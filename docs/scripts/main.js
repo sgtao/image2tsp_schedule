@@ -3,20 +3,41 @@
 function init(){
   let inputElement = document.getElementById('fileInput');
   let srcImgElement = document.getElementById('imageSrc');
+  let srcImgElement_sample2 = document.getElementById('imageSrc2');
+  let srcImgElement_sample3 = document.getElementById('imageSrc3');
+  let sample_list = document.getElementById('sample_list');
+  let last_sample = sample_list.value;
   let templateElement = document.getElementById('fileTemplate');
   let tmplImgElement = document.getElementById('tempImg');
 
   inputElement.addEventListener('change', (e) => {
     srcImgElement.src = URL.createObjectURL(e.target.files[0]);
   }, false);
-  function load_srcImg() {
+  function load_srcImg(imageSrc) {
     let mat = cv.imread(imageSrc);
     cv.imshow('canvasInput', mat);
     mat.delete();
     templateMatching();
   };
   srcImgElement.addEventListener('load', (event) => {
-    load_srcImg(event);
+    load_srcImg('imageSrc');
+  });
+  sample_list.addEventListener('change', () => {
+    let choose_sample = sample_list.value;
+    if (choose_sample != last_sample) {
+      last_sample = choose_sample;
+      // about above, more improve needed
+      switch(choose_sample) {
+        case '01a_pt76_map' : 
+          load_srcImg('imageSrc'); break;
+        case '02a_USA_cities_map' :
+          load_srcImg('imageSrc2'); break;
+        case '03a_wi29_map' :
+          load_srcImg('imageSrc3'); break;
+        default : 
+          load_srcImg('imageSrc'); break;
+      }
+    }
   });
 
   templateElement.addEventListener('change', (e) => {
@@ -134,6 +155,6 @@ function init(){
   }
   // initial dispatch at loading.
   load_templImg();
-  load_srcImg();
+  load_srcImg('imageSrc');
 
 }
