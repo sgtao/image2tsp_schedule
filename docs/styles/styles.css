@@ -32,7 +32,8 @@ html, body {
 
 main {
   margin: 0 auto;
-  width: 90%; }
+  width: 100%;
+  background-color: #5ab4bd; }
 
 .mockup_images {
   /*タブ切り替え全体のスタイル*/
@@ -80,7 +81,8 @@ main {
     color: #fff; }
 
 canvas {
-  max-width: 600px; }
+  max-width: 600px;
+  border: 1px solid black; }
 
 .inputImage {
   position: relative;
@@ -101,5 +103,15 @@ canvas {
     .inputImage > .input-overlay.overlay-hide {
       opacity: 0;
       visibility: hidden; }
+
+#MatchingList {
+  width: 90%;
+  height: 400px;
+  margin: 10px auto;
+  border: 1px solid black;
+  padding: 10px;
+  overflow: scroll; }
+  #MatchingList li {
+    list-style: none; }
 
 /*# sourceMappingURL=styles.css.map */
