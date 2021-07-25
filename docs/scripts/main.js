@@ -29,11 +29,17 @@ function init(){
       // about above, more improve needed
       switch(choose_sample) {
         case '01a_pt76_map' : 
-          load_srcImg('imageSrc'); break;
+          load_srcImg('imageSrc');
+          load_sample_result('assets/results/01a_pt76_map.cyc');
+          break;
         case '02a_USA_cities_map' :
-          load_srcImg('imageSrc2'); break;
+          load_srcImg('imageSrc2'); 
+          load_sample_result('assets/reulsts/02a_USA_cities_map.cyc');
+          break;
         case '03a_wi29_map' :
-          load_srcImg('imageSrc3'); break;
+          load_srcImg('imageSrc3'); 
+          load_sample_result('assets/reulsts/03a_wi29_map.cyc');
+          break;
         default : 
           load_srcImg('imageSrc'); break;
       }
@@ -74,7 +80,7 @@ function init(){
       for (let col = 0; col <= res_cols; col++) {
         let _loc_val = res[row * res_cols + col];
         if (_loc_val > (filter_sign * filter_val)) {
-          console.log(` ${_id++} : (${col},${row}) = ${_loc_val}`);
+          // console.log(` ${_id++} : (${col},${row}) = ${_loc_val}`);
           loc_array.push(new loc_val(col, row, _loc_val));
         }
     }}
@@ -153,8 +159,28 @@ function init(){
     showarea.appendChild(comment_div);
     showarea.appendChild(new_ul);
   }
+  // load sample result(temporary)
+  function load_sample_result(filepath) {
+    console.log('loading ', filepath);
+    // use fetch to retrieve the companies and pass them to init
+    // report any errors that occur in the fetch operation
+    // once the products have been successfully loaded and formatted as a JSON object
+    // using response.json(), run the initialize() function
+    fetch(filepath).then(function (response) {
+      return response.text();
+    }).then(function (text_result) {
+      show_tour_result(text_result);
+    }).catch(function (err) {
+      console.log('Fetch problem: ' + err.message);
+    });
+  }
+  // show tour result
+  function show_tour_result(text_result) {
+    let _text_result_array = text_result.split('\n');
+    console.log(_text_result_array);
+  }
   // initial dispatch at loading.
   load_templImg();
   load_srcImg('imageSrc');
-
+  load_sample_result('assets/results/01a_pt76_map.cyc');
 }
