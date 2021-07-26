@@ -34,11 +34,11 @@ function init(){
           break;
         case '02a_USA_cities_map' :
           load_srcImg('imageSrc2'); 
-          load_sample_result('assets/reulsts/02a_USA_cities_map.cyc');
+          load_sample_result('assets/results/02a_USA_cities_map.cyc');
           break;
         case '03a_wi29_map' :
           load_srcImg('imageSrc3'); 
-          load_sample_result('assets/reulsts/03a_wi29_map.cyc');
+          load_sample_result('assets/results/03a_wi29_map.cyc');
           break;
         default : 
           load_srcImg('imageSrc'); break;
@@ -160,13 +160,13 @@ function init(){
     showarea.appendChild(new_ul);
   }
   // load sample result(temporary)
-  function load_sample_result(filepath) {
+  async function load_sample_result(filepath) {
     console.log('loading ', filepath);
     // use fetch to retrieve the companies and pass them to init
     // report any errors that occur in the fetch operation
     // once the products have been successfully loaded and formatted as a JSON object
     // using response.json(), run the initialize() function
-    fetch(filepath).then(function (response) {
+    const response = await fetch(filepath).then(function (response) {
       return response.text();
     }).then(function (text_result) {
       show_tour_result(text_result);
