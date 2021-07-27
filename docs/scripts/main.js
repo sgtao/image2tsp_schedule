@@ -130,7 +130,7 @@ function init(){
     }
     // cv.imshow('canvasOutput', res);
     cv.imshow('canvasMatching', output);
-    // src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
+    src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
     // put test on canvas --start--
     for (let i = 0; i < loc_array.length; i++) {
       canvas_putText('canvasMatching', loc_array[i].x, loc_array[i].y, i);
