@@ -88,7 +88,10 @@
             <div class="tab_content" id="tspsolved_content">
               <!-- tab_content -- start -->
               <p>ここに、TSPの経路画像を表示します。</p>
-              <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset="">
+              <div class="canvasOutput">
+                <canvas id="canvasTourResult" ></canvas>
+              </div>
+              <!-- <img src="sample_images/03_trace_tsp_solve.png" alt="03_trace_tsp_solve" srcset=""> -->
               <!-- tab_content --  end  -->
             </div>
           </div>
@@ -107,7 +110,7 @@
       init();
     }
   </script>
-  <script async src="https://docs.opencv.org/3.4.0/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
-  <!-- <script async src="scripts/vendors/opencv.3.4.0.js" onload="onOpenCvReady();" type="text/javascript"></script> -->
+  <!-- <script async src="https://docs.opencv.org/3.4.0/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script> -->
+  <script async src="scripts/vendors/opencv.3.4.0.js" onload="onOpenCvReady();" type="text/javascript"></script>
 </body>
 </html>

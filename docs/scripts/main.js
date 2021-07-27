@@ -9,6 +9,7 @@ function init(){
   let last_sample = sample_list.value;
   let templateElement = document.getElementById('fileTemplate');
   let tmplImgElement = document.getElementById('tempImg');
+  let loc_array = [];
 
   inputElement.addEventListener('change', (e) => {
     srcImgElement.src = URL.createObjectURL(e.target.files[0]);
@@ -113,7 +114,7 @@ function init(){
     // console.log(`result at maxPoint(${matchLoc.x}, ${matchLoc.y}) = ${res.floatAt(matchLoc.x, matchLoc.y)}`);
     // console.log('result at maxLoc is : ', res.data32F[matchLoc.y * res.cols + matchLoc.x]);
     // find locations over threshold
-    let loc_array = find_loc_array(res.data32F, res_cols, res_rows, minMaxLoc.maxVal, 0.99);
+    loc_array = find_loc_array(res.data32F, res_cols, res_rows, minMaxLoc.maxVal, 0.99);
     console.log(loc_array);
     // 
     // output matching result
@@ -129,10 +130,10 @@ function init(){
     }
     // cv.imshow('canvasOutput', res);
     cv.imshow('canvasMatching', output);
-    src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
+    // src.delete(); templ.delete(); res.delete(); mask.delete(); output.delete();
     // put test on canvas --start--
     for (let i = 0; i < loc_array.length; i++) {
-      canvas_putText('canvasMatching', loc_array[i].x, loc_array[i].y, i + 1);
+      canvas_putText('canvasMatching', loc_array[i].x, loc_array[i].y, i);
     }
     // put test on canvas -- end --
     // 
@@ -150,7 +151,7 @@ function init(){
     let new_ul = document.createElement('ul');
     for (let i = 0; i < loc_array.length; i++) {
       let new_li = document.createElement('li');
-      new_li.textContent = (i+1) + ' : x = ' + loc_array[i].x + ', y = ' + loc_array[i].y ;
+      new_li.textContent = (i) + ' : x = ' + loc_array[i].x + ', y = ' + loc_array[i].y ;
       new_ul.appendChild(new_li);
     }
     //もとの子要素を全て削除
@@ -178,6 +179,40 @@ function init(){
   function show_tour_result(text_result) {
     let _text_result_array = text_result.split('\n');
     console.log(_text_result_array);
+    // show tour 
+    let src = cv.imread('canvasInput', 1);
+    let templ = cv.imread('canvasTemplate', 1);
+    let output = new cv.Mat();
+    src.copyTo(output);
+    let color = new cv.Scalar(255, 0, 0, 255);
+    // append matching locations
+    for (let i = 0; i < loc_array.length; i++) {
+      let point_base = { x: loc_array[i].x, y: loc_array[i].y };
+      // console.log(i, point_base);
+      let point = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
+      cv.rectangle(output, point_base, point, color, 2, cv.LINE_8, 0);
+    }
+    // draw tour
+    for (let i = 0; i < _text_result_array.length; i++) {
+      let point_idx = _text_result_array[i];
+      let point_base = { x: loc_array[point_idx].x, y: loc_array[point_idx].y };
+      let point = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
+      // draw tour line
+      let j = ((i + 1) % _text_result_array.length);
+      let next_idx = _text_result_array[j];
+      let point_next_base = { x: loc_array[next_idx].x, y: loc_array[next_idx].y };
+      let point_next = new cv.Point(point_next_base.x + templ.cols, point_next_base.y + templ.rows);
+      cv.line(output, point_base, point_next, color, 2, cv.LINE_8, 0);
+
+    }
+    cv.imshow('canvasTourResult', output);
+    // put test on canvas --start--
+    for (let i = 0; i < loc_array.length; i++) {
+      canvas_putText('canvasTourResult', loc_array[i].x, loc_array[i].y, i);
+    }
+
+    // purge resources
+    src.delete(); output.delete();
   }
   // initial dispatch at loading.
   load_templImg();
