@@ -176,6 +176,12 @@ function init(){
     });
   }
   // show tour result
+  function draw_tour(output, loc_array, i, j, templ, color) {
+    let point_base = { x: loc_array[i].x, y: loc_array[i].y };
+    let point_src = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
+    let point_dist_base = { x: loc_array[j].x, y: loc_array[j].y };
+    cv.line(output, point_src, point_dist_base, color, 2, cv.LINE_8, 0);
+  }
   function show_tour_result(text_result) {
     let _text_result_array = text_result.split('\n');
     console.log(_text_result_array);
@@ -193,18 +199,25 @@ function init(){
       cv.rectangle(output, point_base, point, color, 2, cv.LINE_8, 0);
     }
     // draw tour
+    let tour_color = new cv.Scalar(0, 0, 127, 255);
     for (let i = 0; i < _text_result_array.length; i++) {
-      let point_idx = _text_result_array[i];
-      let point_base = { x: loc_array[point_idx].x, y: loc_array[point_idx].y };
-      let point = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
-      // draw tour line
-      let j = ((i + 1) % _text_result_array.length);
-      let next_idx = _text_result_array[j];
-      let point_next_base = { x: loc_array[next_idx].x, y: loc_array[next_idx].y };
-      let point_next = new cv.Point(point_next_base.x + templ.cols, point_next_base.y + templ.rows);
-      cv.line(output, point_base, point_next, color, 2, cv.LINE_8, 0);
-
+      // let point_idx = _text_result_array[i];
+      // let point_base = { x: loc_array[point_idx].x, y: loc_array[point_idx].y };
+      // let point_src = new cv.Point(point_base.x + templ.cols, point_base.y + templ.rows);
+      // let j = ((i + 1) % _text_result_array.length);
+      // let next_idx = _text_result_array[j];
+      // let point_dist_base = { x: loc_array[next_idx].x, y: loc_array[next_idx].y };
+      // cv.line(output, point_src, point_dist_base, color, 2, cv.LINE_8, 0);
+      let src_idx  = _text_result_array[i];
+      let dist_idx = _text_result_array[((i + 1) % _text_result_array.length)];
+      draw_tour(output, loc_array, src_idx, dist_idx, templ, tour_color);
     }
+    // 1st tour line
+    tour_color = new cv.Scalar(127, 0, 0, 255);
+    let src_idx = _text_result_array[0];
+    let dist_idx = _text_result_array[1];
+    draw_tour(output, loc_array, src_idx, dist_idx, templ, tour_color);
+
     cv.imshow('canvasTourResult', output);
     // put test on canvas --start--
     for (let i = 0; i < loc_array.length; i++) {
